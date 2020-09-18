@@ -22,10 +22,12 @@ namespace ContactsApi.Persistence.Repositories
             return await DbContext.Set<T>().FindAsync(id);
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             await DbContext.Set<T>().AddAsync(entity);
             await DbContext.SaveChangesAsync();
+
+            return entity.Id;
         }
 
         public async Task UpdateAsync(T entity)

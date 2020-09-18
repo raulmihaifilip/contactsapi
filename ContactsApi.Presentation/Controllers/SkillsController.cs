@@ -26,15 +26,14 @@ namespace ContactsApi.Presentation.Controllers
         }
 
         /// <summary>
-        /// Create skill
+        /// Create skill and return the id
         /// </summary>
         /// <param name="skillViewModel"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SkillSaveViewModel skillViewModel)
         {
-            await _skillsService.AddAsync(skillViewModel);
-            return Ok();
+            return Ok(await _skillsService.AddAsync(skillViewModel));
         }
 
         /// <summary>

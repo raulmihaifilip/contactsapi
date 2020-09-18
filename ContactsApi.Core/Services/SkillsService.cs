@@ -34,7 +34,7 @@ namespace ContactsApi.Core.Services
             return skillViewModel;
         }
 
-        public async Task AddAsync(SkillSaveViewModel skillViewModel)
+        public async Task<int> AddAsync(SkillSaveViewModel skillViewModel)
         {
             var skillEntity = new Skill()
             {
@@ -42,7 +42,7 @@ namespace ContactsApi.Core.Services
                 LevelId = skillViewModel.LevelId
             };
 
-            await _skillsRepository.AddAsync(skillEntity);
+            return await _skillsRepository.AddAsync(skillEntity);
         }
 
         public async Task UpdateAsync(int id, SkillSaveViewModel skillViewModel)

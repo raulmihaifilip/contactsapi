@@ -44,7 +44,7 @@ namespace ContactsApi.Core.Services
             return contactViewModel;
         }
 
-        public async Task AddAsync(ContactSaveViewModel contactViewModel)
+        public async Task<int> AddAsync(ContactSaveViewModel contactViewModel)
         {
             var currentUserId = int.Parse(_authClaimsService.GetUserId());
 
@@ -58,7 +58,7 @@ namespace ContactsApi.Core.Services
                 UserId = currentUserId
             };
 
-            await _contactsRepository.AddAsync(contactEntity);
+            return await _contactsRepository.AddAsync(contactEntity);
         }
 
         public async Task UpdateAsync(int id, ContactSaveViewModel contactViewModel)

@@ -28,15 +28,14 @@ namespace ContactsApi.Web.Controllers
         }
 
         /// <summary>
-        /// Create contact
+        /// Create contact and return the id
         /// </summary>
         /// <param name="contactViewModel"></param>
         /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ContactSaveViewModel contactViewModel)
         {
-            await _contactsService.AddAsync(contactViewModel);
-            return Ok();
+            return Ok(await _contactsService.AddAsync(contactViewModel));
         }
 
         /// <summary>
