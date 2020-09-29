@@ -8,5 +8,6 @@ namespace ContactsApi.Core.Interfaces
     {
         Task AddContactSkillsAsync(IEnumerable<ContactSkill> contactSkills);
         Task<Contact> GetWithSkillsAsync(int id);
+        Task<IList<Contact>> GetAllWithSkillsAsync();
     }
 }

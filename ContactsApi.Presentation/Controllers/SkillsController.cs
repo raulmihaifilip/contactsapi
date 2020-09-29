@@ -26,6 +26,16 @@ namespace ContactsApi.Presentation.Controllers
         }
 
         /// <summary>
+        /// Get all skills
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _skillsService.GetAllAsync());
+        }
+
+        /// <summary>
         /// Create skill and return the id
         /// </summary>
         /// <param name="skillViewModel"></param>

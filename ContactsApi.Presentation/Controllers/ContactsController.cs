@@ -28,6 +28,17 @@ namespace ContactsApi.Web.Controllers
         }
 
         /// <summary>
+        /// Get all contacts
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            return Ok(await _contactsService.GetAllAsync());
+        }
+
+
+        /// <summary>
         /// Create contact and return the id
         /// </summary>
         /// <param name="contactViewModel"></param>

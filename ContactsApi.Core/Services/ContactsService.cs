@@ -1,4 +1,5 @@
-﻿using ContactsApi.Core.Entities;
+﻿using AutoMapper;
+using ContactsApi.Core.Entities;
 using ContactsApi.Core.Exceptions;
 using ContactsApi.Core.Interfaces;
 using ContactsApi.Core.ViewModels;
@@ -13,18 +14,36 @@ namespace ContactsApi.Core.Services
     {
         private readonly IContactsRepository _contactsRepository;
         private readonly IAuthClaimsService _authClaimsService;
+        private readonly IMapper _mapper;
 
-        public ContactsService(IAuthClaimsService authClaimsService, IContactsRepository contactsRepository)
+        public ContactsService(IAuthClaimsService authClaimsService, IContactsRepository contactsRepository, IMapper mapper)
         {
             _authClaimsService = authClaimsService;
             _contactsRepository = contactsRepository;
+            _mapper = mapper;
         }
 
         public async Task<ContactGetViewModel> GetAsync(int id)
         {
             var contactEntity = await ValidateOperationAsync(id, false);
 
-            var contactViewModel = new ContactGetViewModel()
+            var contactViewModel = _mapper.Map<ContactGetViewModel>(contactEntity);
+            contactViewModel.Skills = contactEntity.ContactSkills.Select(cs => new SkillGetViewModel()
+            {
+                Id = cs.Skill.Id,
+                Name = cs.Skill.Name,
+                LevelId = cs.Skill.LevelId,
+                LevelName = cs.Skill.Level.Name
+            });
+
+            return contactViewModel;
+        }
+
+        public async Task<IList<ContactGetViewModel>> GetAllAsync()
+        {
+            var contactEntities = await _contactsRepository.GetAllWithSkillsAsync();
+
+            var contactViewModels = contactEntities.Select(contactEntity => new ContactGetViewModel()
             {
                 Id = contactEntity.Id,
                 Firstname = contactEntity.Firstname,
@@ -39,9 +58,9 @@ namespace ContactsApi.Core.Services
                     LevelId = cs.Skill.LevelId,
                     LevelName = cs.Skill.Level.Name
                 })
-            };
+            }).ToList();
 
-            return contactViewModel;
+            return contactViewModels;
         }
 
         public async Task<int> AddAsync(ContactSaveViewModel contactViewModel)

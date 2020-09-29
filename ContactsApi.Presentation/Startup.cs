@@ -7,6 +7,8 @@ using ContactsApi.Core.Models;
 using FluentValidation.AspNetCore;
 using ContactsApi.Presentation.Extensions;
 using ContactsApi.Presentation.Filters;
+using AutoMapper;
+using ContactsApi.Core.Extensions;
 
 namespace Contacts
 {
@@ -37,7 +39,7 @@ namespace Contacts
                 options.Filters.Add<ExceptionFilter>();
                 options.Filters.Add<ModelStateFilter>();
             }).AddFluentValidation(options => options.RegisterValidatorsFromAssemblyContaining<Startup>())
-              .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);
+              .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true);            
 
             services.AddControllers();
         }

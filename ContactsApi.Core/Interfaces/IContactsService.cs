@@ -6,6 +6,7 @@ namespace ContactsApi.Core.Interfaces
 {
     public interface IContactsService
     {
+        Task<IList<ContactGetViewModel>> GetAllAsync();
         Task<ContactGetViewModel> GetAsync(int id);
         Task<int> AddAsync(ContactSaveViewModel contactViewModel);
         Task UpdateAsync(int id, ContactSaveViewModel contactViewModel);

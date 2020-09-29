@@ -32,5 +32,14 @@ namespace ContactsApi.Persistence.Repositories
                         .SingleOrDefaultAsync(c => c.Id == id);
 
         }
+
+        public async Task<IList<Contact>> GetAllWithSkillsAsync()
+        {
+            return await DbContext.Contacts
+                        .Include(c => c.ContactSkills)
+                        .ThenInclude(c => c.Skill)
+                        .ThenInclude(c => c.Level)
+                        .ToListAsync();
+        }
     }
 }

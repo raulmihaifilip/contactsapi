@@ -3,6 +3,7 @@ using ContactsApi.Core.Exceptions;
 using ContactsApi.Core.Interfaces;
 using ContactsApi.Core.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,6 +33,22 @@ namespace ContactsApi.Core.Services
             };
 
             return skillViewModel;
+        }
+
+        public async Task<IList<SkillGetViewModel>> GetAllAsync()
+        {
+            var skillsEntities = await _skillsRepository.GetAllWithLevelAsync();
+
+            //use here Automapper
+            var skillViewModels = skillsEntities.Select(skillEntity => new SkillGetViewModel()
+            {
+                Id = skillEntity.Id,
+                Name = skillEntity.Name,
+                LevelId = skillEntity.LevelId,
+                LevelName = skillEntity.Level.Name
+            }).ToList();
+
+            return skillViewModels;
         }
 
         public async Task<int> AddAsync(SkillSaveViewModel skillViewModel)

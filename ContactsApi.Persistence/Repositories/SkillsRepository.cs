@@ -1,6 +1,7 @@
 ﻿using ContactsApi.Core.Entities;
 using ContactsApi.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ContactsApi.Persistence.Repositories
@@ -14,6 +15,13 @@ namespace ContactsApi.Persistence.Repositories
             return await DbContext.Skills
                         .Include(s => s.Level)
                         .SingleOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<IList<Skill>> GetAllWithLevelAsync()
+        {
+            return await DbContext.Skills
+                         .Include(s => s.Level)
+                         .ToListAsync();
         }
 
         public async Task<Skill> GetWithContactsAsync(int id)
